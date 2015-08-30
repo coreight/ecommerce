@@ -15,7 +15,7 @@ class Salesman extends User /* implements CRUDInterface*/
      */
     public function create($crud)
     {
-        return $type->createCommercial($crud);
+        /*return $type->createCommercial($crud);*/
 
     }
 

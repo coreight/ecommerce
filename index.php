@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css">
 <?php
     include_once __DIR__.'/vendor/autoload.php';
+
     use Symfony\Component\Debug\Debug;
+    use App\Decorator\RenderInBootstrapBg;
+    use App\Decorator\RenderInBootstrapIcon;
 
     Debug::enable();
 ?>
@@ -15,6 +18,7 @@
 </head>
 <style>
     .navbar { z-index: 100001;}
+    .bg {padding: 15px;}
 </style>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -168,7 +172,7 @@
 
     <p>Le premier vendeur créé une promotion et une réduction</p>
     <?php
-
+    /*
     $commercial = new \App\Commercials\CommercialFactory();
 
     $promotion1 = $salesman1->create($commercial, new \App\Commercials\Promotion());
@@ -186,7 +190,7 @@
     $reduction1->setNatureReduc("pourcentage");
     $reduction1->setMontantReduc("5");
     dump($reduction1);
-
+    */
     ?>
     <?php
     /*
@@ -199,17 +203,82 @@
     dump($categorieDarty1->vente());
     */
     ?>
+    <?php
+    echo "<p>Test Factory Smartphone : </p>";
+
+    $samsungfactory = new \App\Smartphone\SamsungFactory();
+    $applefactory = new \App\Smartphone\AppleFactory();
+    $sonyfactory = new \App\Smartphone\SonyFactory();
+
+    $smartphone1 = $samsungfactory->createSmartphone("plastique", "black", 32, 220);
+    $smartphone2 = $samsungfactory->createSmartphone("plastique", "white", 16, 160);
+    $smartphone3 = $applefactory->createSmartphone("aluminium", "white", 16, 180);
+    $smartphone4 = $applefactory->createSmartphone("aluminium", "gold", 32, 170);
+    $smartphone5 = $sonyfactory->createSmartphone("plastique", "white", 16, 150);
+    $smartphone6 = $sonyfactory->createSmartphone("plastique", "black", 32, 160);
+    dump($smartphone1, $smartphone2, $smartphone3, $smartphone4, $smartphone5, $smartphone6);
+    ?>
+
+
+    <?php
+    /*
+    echo "<p>Test Decorator: </p>";
+    $product1 = new \App\Decorator\Product("Apple Watch", "Description", 650);
+    $product2 = new \App\Decorator\Product("Apple TV", "Description", 650);
+
+    $json = new \App\Decorator\RenderInJson($product1);
+    $xml = new \App\Decorator\RenderInXml($product2);
+    $bootstrap = new RenderInBootstrapBg(new RenderInBootstrapBg($product1));
+
+    dump($json->renderProduct());
+    dump($xml->renderProduct());
+
+    echo $bootstrap->bootstrap();
+    Le cumul ne marche pas, à revoir
+    */
+
+
+    ?>
+
+<?php
+
+echo "<p>Test Adapter : </p>";
+    $adapter1 = new \App\Social\Facebook\FbUserAdapter(new \App\Social\Facebook\FbUser());
+    dump($adapter1->getImages());
+
+    $adapter2 = new \App\Social\GooglePlus\GooglePlusUserAdapter(new \App\Social\GooglePlus\GooglePlusUser());
+    dump($adapter2->getImages());
+?>
 
 
 
+<?php
 
+echo "<p>Test Composite : </p>";
 
+    /*On créé un dossier */
+    $dossier1 = new \App\Composite\Dossier();
+    $dossier1->setTitle("Folder1");
+    $dossier1->setDescription("Mon premier dossier");
+    $dossier1->setTaille(256);
 
+    /* On créé 2 fichiers */
+    $fichier1 = new \App\Composite\Fichier();
+    $fichier1->setTitle("File1");
+    $fichier1->setDescription("Mon premier fichier");
+    $fichier1->setTaille(50);
 
+    $fichier2 = new \App\Composite\Fichier();
+    $fichier2->setTitle("File2");
+    $fichier2->setDescription("Mon deuxième fichier");
+    $fichier2->setTaille(75);
 
+    // On ajoute ces deux fichiers dans le dossier
+    $dossier1->ajouterFichier($fichier1);
+    $dossier1->ajouterFichier($fichier2);
 
-
-
+    dump($dossier1);
+?>
 
 
 
